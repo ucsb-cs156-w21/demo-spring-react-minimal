@@ -13,6 +13,8 @@ import PrivateRoute from "main/components/Auth/PrivateRoute";
 import Admin from "main/pages/Admin/Admin";
 import useSWR from "swr";
 import { fetchWithToken } from "main/utils/fetch";
+import AuthorizedRoute from "main/components/Nav/AuthorizedRoute";
+
 
 function App() {
   const { isLoading, getAccessTokenSilently: getToken } = useAuth0();
@@ -33,9 +35,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={Home} />
           <PrivateRoute path="/profile" component={Profile} />
-          { isAdmin &&
-            <PrivateRoute path="/admin" component={Admin} />
-          }
+          <AuthorizedRoute path="/admin" component={Admin} authorizedRoles={["admin"]}/>
           <Route path="/about" component={About} />
         </Switch>
       </Container>
