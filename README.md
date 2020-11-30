@@ -18,6 +18,9 @@ This repo is intended to be starter code for apps that have a
     added to the admins table by someone that's already an 
     admin.
 
+## Integrations
+
+* The npm package `prettier` is used to implement a pre-commit hook that formats JavaScript code.  See: [docs/prettier.md](./docs/prettier.md) for more information.
 
 ## Property file values
 
