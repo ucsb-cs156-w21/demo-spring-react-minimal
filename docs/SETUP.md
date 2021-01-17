@@ -349,14 +349,13 @@ function (user, context, callback) {
 
 ## Step 8: Set up the secrets files
 
-There are now four files that you have to configure in your app&mdash;two for the frontend, and two for backend.  
+There are now three files that you have to configure in your app&mdash;two for the frontend, and two for backend.  
 
 | Filename | Layer | Purpose |
 |-|-|-|
 | `./secrets-localhost.properties` | backend (Java, Spring) | Sets properties used by the backend Java code when running on localhost | 
 | `./secrets-heroku.properties` | backend (Java, Spring) | Used as a source for copying properties to the Heroku backend config var `HEROKU_PROPERTIES` by the python script `setHerokuVars.py` (more detail below)|
 | `./javascript/.env.local` | frontend (JavaScript, React) | Used by the frontend JavaScript code to set properties |
-| `./javascript/.env.production` | frontend (JavaScript, React) | Used by the frontend JavaScript code to set properties |
 
 Some of the values in each of these files are considered  _secrets_, i.e. token values that similar to passwords.   These values can be used to compromise the security of your system; accordingly they should
 * not be hardcoded in Java or JavaScript source code
@@ -369,7 +368,6 @@ Accordingly, in the repo, you will only find `.SAMPLE` versions of these file:
 | `secrets-localhost.properties.SAMPLE` | `secrets-localhost.properties` |
 | `secrets-heroku.properties.SAMPLE` | `secrets-heroku.properties` |
 | `javascript/.env.local.SAMPLE` | `javascript/.env.local` |
-| `javascript/.env.production.SAMPLE` | `javascript/.env.production` |
 
 In each case, you will need to copy from the `.SAMPLE` version of the file
 to the actual filename, and then edit the file to put in the correct values.

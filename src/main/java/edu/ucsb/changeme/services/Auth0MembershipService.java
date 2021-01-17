@@ -65,7 +65,16 @@ public class Auth0MembershipService implements MembershipService {
     if (jwt == null)
       return false;
 
+    logger.info("jwt={}",jwt);
+
+
     Map<String, Object> customClaims = jwt.getClaim(namespace).asMap();
+    if (customClaims == null) {
+      logger.error("ERROR!  customClaims is null");
+      logger.error("namespace = {}", namespace);
+      return false;
+    }
+
     String email = (String) customClaims.get("email");
     String hostedDomain = email.substring(email.indexOf("@") + 1);
 
