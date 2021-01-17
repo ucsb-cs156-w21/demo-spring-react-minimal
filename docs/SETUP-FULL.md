@@ -1,18 +1,34 @@
-# ./docs/SETUP.md
+# ./docs/SETUP_FULL.md
 
+These instructions are the full version of the setup instructions.  
+
+If this is your first time working with setting up a Spring Boot / React application for this course, you should follow these instructions.
+
+You may follow the [SETUP-QUICKSTART.md](./SETUP-QUICKSTART.md) version instead if:
+* You've already been through the full instructions at least once
+* You already have an Auth0 account with a tenant
+* You already have Google Developer Project set up on your Google account
+
+# What setup enables you to do
 To get started with this application, you'll need to be able to
 * Run it locally (i.e. on localhost)
 * Deploy it to Heroku
-* Get the test cases running on GitHub Actions
-* See aggregrated code coverage statistics on Codecov
+
+These instructions cover this setup.
+
+There are separate instructions in the file [./github-actions-secrets.md](./github-actions-secrets.md) for:
+
+* Getting the test cases running on GitHub Actions
+* Seeing aggregrated code coverage statistics on Codecov
+
+# List of integrations
 
 This application has integrations with the following third-party
 services that require configuration
 * Auth0.com (for authentication)
 * Google (for authentication)
 * A postgres database provisioned on Heroku
-* Github Actions for CI/CD
-* Codecov for reporting code coverage
+
 
 ## Step 0: Get Organized
 
@@ -25,6 +41,7 @@ into a file in your editor, and fill in the values on the right hand side as we 
 Example `temp-credentials.txt`
 ```
 heroku.app:
+heroku.url:
 auth0.tenant:
 auth0.domain:
 auth0.clientId: 
@@ -72,11 +89,12 @@ Enter this into Heroku.com to create a new application as shown below.  The even
 
 ![Create new app on Heroku](./images/heroku-new-app.gif)
 
-Then enter this name for the value `heroku.app` in your `temp-credentials.txt`.
+Then enter this name for the value `heroku.app` in your `temp-credentials.txt`, and enter the full url for `heroku.url`
 so that the file looks something like this:
 
 ```
 heroku.app: ucsb-cgaucho-dsr-minimal
+heroku.url: https://ucsb-cgaucho-dsr-minimal.herokuapp.com
 auth0.tenant: 
 auth0.domain:
 auth0.clientId: 
@@ -149,7 +167,7 @@ The next step is to set up a new Auth0 application.  While logged in to Auth0.co
 
 Name your application that same thing as you named your heroku application
 (e.g. when you put in a name, make it the same name as what you put
-in for `heroku_app_name` in your `temp-credentials.txt`.
+in for `heroku.app` in your `temp-credentials.txt`.
 
 Select "Single Page Application" as the application type, and click "Create".
 
@@ -220,7 +238,7 @@ Next, fill in the fields as follows:
 | Field name | Value | Description |
 |------------|-------|-------------|
 | Name | The name of your application | This is just a visual name for the Auth0 API of your application, and in principle it could be anything.  But to help keep things organized, we'll use the same value that we used for the `heroku.app`,   Example `ucsb-cgaucho-dsr-minimal`|
-| Identifier | Copy your heroku app name into this field also; i.e. `ucsb-cgaucho-dsr-minimal` | This will end up serving as the `Audience` value. |
+| Identifier | Copy your full heroku url into this field; e.g. `https://ucsb-cgaucho-dsr-minimal.herokuapp.com` | This will end up serving as the "audience" value, the "key" that identifies custom claims in the JWT token. |
 | Signing algorithm | RS256 | This determines what cryptographic algorithm is used to verify tokens. The standard is RS256, so we use that here |
 
 It should end up looking like the below image (with your application name):
@@ -390,11 +408,11 @@ preferred text editor, and fill in the values as shown below:
 
 | Key | Example value | Explanation | Copy from corresponding value in `temp-credentials.txt` for |
 |-----|---------------|-------------|---|
-| `app.namespace` | `ucsb-cgaucho-dsr-minimal` | The name you gave to your app on Heroku |  `heroku.app` |
+| `app.namespace` | `https://ucsb-cgaucho-dsr-minimal.herokuapp.com` | The name you gave to your app on Heroku |  `heroku.url` |
 | `app.admin.emails` | `phtcon@ucsb.edu,youremail@ucsb.edu` | A comma separated list of emails for admins for the app.  Add your email. |  (none) |
 | `auth0.domain` | `ucsb-cs156-cgaucho.us.auth0.com` | The DNS hostname used to access Auth0 services; starts wtih the name of your tenant, and ends with something like `.us.auth0.com` |  `auth0.domain` |
 | `auth0.clientId` | `6KoPsWMM2A27PjAejHHWTXApra8CVQ6C` | The value that identifies the specific Auth0 application from your tenant |  `auth0.clientId` |
-| `security.oauth2.resource.id` |  | Copy the same value as `app.namespace` (The name you gave to your app on Heroku (used here to identify which Auth0 API we are using) |  `heroku.app` |
+| `security.oauth2.resource.id` | `https://ucsb-cgaucho-dsr-minimal.herokuapp.com` | Copy the same value as `app.namespace`  |  `heroku.url` |
 |`security.oauth2.resource.jwk.keySetUri`| (no change)| Leave unchanged from value in `.SAMPLE` file | | 
 
 Next, you will edit the `javascript/.env.local` file with your
@@ -404,7 +422,7 @@ preferred text editor, and fill in the values as shown below:
 |-----|---------------|-------------|---|
 |`REACT_APP_AUTH0_DOMAIN`| `ucsb-cs156-cgaucho.us.auth0.com` | The DNS hostname used to access Auth0 services; starts wtih the name of your tenant, and ends with something like `.us.auth0.com` |  `auth0.domain` |
 |`REACT_APP_AUTH0_CLIENT_ID`| `6KoPsWMM2A27PjAejHHWTXApra8CVQ6C`| The value that identifies the specific Auth0 application from your tenant |  `auth0.clientId` |
-|`REACT_APP_AUTH0_AUDIENCE`| `ucsb-cgaucho-dsr-minimal` | The name you gave to your app on Heroku (used here to identify which Auth0 API we are using)`heroku_app_name` |
+|`REACT_APP_AUTH0_AUDIENCE`| `https://ucsb-cgaucho-dsr-minimal.herokuapp.com` | The name you gave to your app on Heroku (used here to identify which Auth0 API we are using)`heroku.url` |
 
 At this point, you should be able to run the app on localhost with the command:
 
@@ -497,24 +515,3 @@ installed. The command is: `heroku logs --app APP-NAME-ON-HEROKU`.
 
 
 
-## Setting up Custom Claims in Auth0
-
-User Access Tokens are two json objects: within the json objects there are some keys and fields that are expected to be there. If you want to add addditional keys and values, these are called custom claims. The keys for custom claims must begin with something that resembles a url. This makes sure that claims from one application don't interfere with claims from another application.
-
-In this case, we want to put in email, first name, and last name.
-
-In Auth0.com go to the left hand sidebar and click `Rules`, then click `Create Rule`. Select `Empty Rule` at the top.
-
-There is a function that takes a user, a context, and a callback. Context has an access token as a property. User has all of the user information. We want to add a property to context.accessToken.
-
-To do this, add:
-
-```javascript
-context.accessToken[<application url>]={
-  "email" : user.email,
-  "given_name" : user.given_name,
-  "family_name" : user.family_name
-};
-```
-
-before the return statement. After that, save the new rule.
