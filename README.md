@@ -37,8 +37,8 @@ services that require configuration
 * A postgres database provisioned on Heroku
 
 All of the setup steps for running the app on localhost and Heroku are described in these  file: 
-* [./docs/SETUP_FULL.md](./docs/SETUP_FULL.md) if it is your first time setting up a Spring/React app with Auth0 and Google
-* [./docs/SETUP_QUICKSTART.md](./docs/SETUP_QUICKSTART.md) if you've done these steps before.
+* [./docs/SETUP-FULL.md](./docs/SETUP-FULL.md) if it is your first time setting up a Spring/React app with Auth0 and Google
+* [./docs/SETUP-QUICKSTART.md](./docs/SETUP-QUICKSTART.md) if you've done these steps before.
 
 ## Setting up GitHub Actions (CI/CD, CodeCov)
 
