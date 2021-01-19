@@ -372,7 +372,7 @@ There are now three files that you have to configure in your app&mdash;two for t
 | Filename | Layer | Purpose |
 |-|-|-|
 | `./secrets-localhost.properties` | backend (Java, Spring) | Sets properties used by the backend Java code when running on localhost | 
-| `./secrets-heroku.properties` | backend (Java, Spring) | Used as a source for copying properties to the Heroku backend config var `HEROKU_PROPERTIES` by the python script `setHerokuVars.py` (more detail below)|
+| `./secrets-heroku.properties` | backend (Java, Spring) | Used as a source for copying properties to the Heroku backend config var `SPRING_PROPERTIES` by the python script `setHerokuVars.py` (more detail below)|
 | `./javascript/.env.local` | frontend (JavaScript, React) | Used by the frontend JavaScript code to set properties |
 
 Some of the values in each of these files are considered  _secrets_, i.e. token values that similar to passwords.   These values can be used to compromise the security of your system; accordingly they should
@@ -471,9 +471,9 @@ spring.jpa.hibernate.ddl-auto=update
 ```
 
 Now, it is important to note that when running on Heroku, the backend
-gets its properties values from the Heroku config variable `HEROKU_PROPERTIES`, _not_ directly from the `secrets-heroku.properties` file.   
+gets its properties values from the Heroku config variable `SPRING_PROPERTIES`, _not_ directly from the `secrets-heroku.properties` file.   
 
-The purpose of the `secrets-heroku.properties` is to initialize the values of the Heroku Config variable `HEROKU_PROPERTIES` via the Python script `./setHerokuVars.py`.
+The purpose of the `secrets-heroku.properties` is to initialize the values of the Heroku Config variable `SPRING_PROPERTIES` via the Python script `./setHerokuVars.py`.
 
 Therefore, once the file `secrets-heroku.properties` is properly configured, the next step is to login to the Heroku CLI.  
 * If you are on CSIL, use `heroku login -i`
@@ -493,7 +493,7 @@ of Python. If you are not sure, use `python -v` or `python3 -v` to see
 which command gives you some version of Python 3.
 
 
-After doing this, if you visit you app on the Heroku dashboard (<https://dashboard.heroku.com>), go to the Settings tab, click "Reveal Config Vars", and look for the value of the variable `HEROKU_PROPERTIES`, you should see the values from your file reflected there.
+After doing this, if you visit you app on the Heroku dashboard (<https://dashboard.heroku.com>), go to the Settings tab, click "Reveal Config Vars", and look for the value of the variable `SPRING_PROPERTIES`, you should see the values from your file reflected there.
                                                                     |
 At this point, if you deploy the main branch of your repo on Heroku, the 
 app should load.

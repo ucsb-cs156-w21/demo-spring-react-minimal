@@ -269,7 +269,7 @@ Now, run the python script to update these values on Heroku.
    python3 setHerokuVars.py ucsb-cs156-dsr-minimal
 ```
 
-After doing this, if you visit you app on the Heroku dashboard (<https://dashboard.heroku.com>), go to the Settings tab, click "Reveal Config Vars", and look for the value of the variable `HEROKU_PROPERTIES`, you should see the values from your file reflected there.
+After doing this, if you visit you app on the Heroku dashboard (<https://dashboard.heroku.com>), go to the Settings tab, click "Reveal Config Vars", and look for the value of the variable `SPRING_PROPERTIES`, you should see the values from your file reflected there.
                                                                   |
 At this point, if you deploy the main branch of your repo on Heroku, the 
 app should load.  You may need to deploy twice if this is your first time deploying the app (so that the database provisions properly.)
