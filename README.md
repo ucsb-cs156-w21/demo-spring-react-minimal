@@ -61,8 +61,8 @@ This section serves as a quick reference for values found in these files:
 | `app.member.hosted-domain`                                        |              | The email suffix that identifies members (i.e. `ucsb.edu` vs `gmail.com`) |
 | `auth0.domain`                                                    |              | See `Getting Started` below                                               |
 | `auth0.clientId`                                                  |              | See `Getting Started` below                                               |
-| `security.oauth2.resource.id`                                     |              | Should always be `${app.namespace}/api`                                   |
-| `security.oauth2.resource.jwk.keySetUri`                          |              | Should always be `https://\${auth0.domain}/.well-known/jwks.json`         |
+| `security.oauth2.resource.id`                                     |              | Should always match `app.namespace`                                   |
+| `security.oauth2.resource.jwk.keySetUri`                          |              | Should always be `https://${auth0.domain}/.well-known/jwks.json`         |
 | `spring.jpa.database-platform`                                    | Yes          | Should always be `org.hibernate.dialect.PostgreSQLDialect`                |
 | `spring.datasource.driver-class-name`                             | Yes          | Should always be `org.postgresql.Driver`                                  |
 | `spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults` | Yes          | Should always be `false`                                                  |
