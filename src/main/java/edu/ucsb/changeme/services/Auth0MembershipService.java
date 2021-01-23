@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import edu.ucsb.changeme.entities.Admin;
 import edu.ucsb.changeme.entities.AppUser;
 import edu.ucsb.changeme.repositories.AdminRepository;
 
@@ -64,9 +63,6 @@ public class Auth0MembershipService implements MembershipService {
   private boolean hasRole(DecodedJWT jwt, String roleToTest) {
     if (jwt == null)
       return false;
-
-    logger.info("jwt={}",jwt);
-
 
     Map<String, Object> customClaims = jwt.getClaim(namespace).asMap();
     if (customClaims == null) {
