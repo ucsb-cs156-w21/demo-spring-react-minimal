@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import edu.ucsb.changeme.entities.Admin;
 import edu.ucsb.changeme.entities.AppUser;
 import edu.ucsb.changeme.repositories.AdminRepository;
 
@@ -66,6 +65,12 @@ public class Auth0MembershipService implements MembershipService {
       return false;
 
     Map<String, Object> customClaims = jwt.getClaim(namespace).asMap();
+    if (customClaims == null) {
+      logger.error("ERROR!  customClaims is null");
+      logger.error("namespace = {}", namespace);
+      return false;
+    }
+
     String email = (String) customClaims.get("email");
     String hostedDomain = email.substring(email.indexOf("@") + 1);
 

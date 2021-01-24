@@ -1,6 +1,8 @@
 package edu.ucsb.changeme.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import java.util.ArrayList;
@@ -18,6 +20,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import org.slf4j.LoggerFactory;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
+
 @ExtendWith(SpringExtension.class)
 public class Auth0MembershipServiceTests {
 
@@ -34,6 +42,9 @@ public class Auth0MembershipServiceTests {
 
   private DecodedJWT defaultAdminJWT = JWT.decode(
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lc3BhY2UiOnsiZW1haWwiOiJhZG1pbkB1Y3NiLmVkdSJ9LCJzdWIiOiIxMjM0NTYiLCJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.DhnSeuqo6YCsdb6qYV5AKsY_xrCZzZ6RHxnVP8WsiC0");
+
+  private DecodedJWT noCustomClaimJWT = JWT.decode(
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE1MTYyMzkwMjIsImp0aSI6Ijg2ZjI1N2RiLWZmNmMtNDU3MS1iODcxLWNmNmM2M2ExYzg4MCIsImV4cCI6MTYxMTM2NjE3MH0.TVfNrSJ2fX-qZAdCmdEjPLRH3WM4mqMOKhDw0noG5iM");
 
   private AppUser exampleUser = new AppUser(1L, "test@ucsb.edu", "Test", "User");
 
@@ -104,4 +115,40 @@ public class Auth0MembershipServiceTests {
     when(adminRepository.findByEmail(any())).thenReturn(admins);
     assertEquals(true, service.isAdmin(exampleUser));
   }
+
+  @Test
+  public void testAuth0MembershipService_hasRole_logsErrorOnNullCustomClaim() throws Exception {
+
+    // See: https://stackoverflow.com/a/51812144 for
+    // example on which this is based
+
+    // get Logback Logger
+    Logger theLogger = (Logger) LoggerFactory.getLogger(Auth0MembershipService.class);
+
+    // create and start a ListAppender
+    ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+    listAppender.start();
+
+    // add the appender to the logger
+    theLogger.addAppender(listAppender);
+
+    // call method under test
+
+    boolean result = service.isMember(noCustomClaimJWT);
+    assertFalse(result, "should return false on JWT with no custom claim");
+
+    // check log messages
+
+    List<ILoggingEvent> logsList = listAppender.list;
+    assertLogMessageEquals(logsList.get(0), Level.ERROR, "ERROR!  customClaims is null");
+    assertLogMessageEquals(logsList.get(1), Level.ERROR, "namespace = namespace");
+    theLogger.detachAppender(listAppender);
+  }
+
+  private void assertLogMessageEquals(ILoggingEvent e, Level level, String expected) {
+    assertEquals(level, e.getLevel());
+    String actualMessage = e.getFormattedMessage();
+    assertEquals(expected,actualMessage);
+  }
+
 }
