@@ -2,9 +2,9 @@ import React from "react";
 import { render } from "@testing-library/react";
 import AppNavbar from "main/components/Nav/AppNavbar";
 import { useAuth0 } from "@auth0/auth0-react";
-jest.mock("@auth0/auth0-react");
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
+jest.mock("@auth0/auth0-react");
 
 describe("AppNavbar tests", () => {
   beforeEach(() => {
@@ -31,7 +31,6 @@ describe("AppNavbar tests", () => {
         <AppNavbar />
       </Router>
     );
-
 
     const userInfoLink = getByText(/Profile/);
     expect(userInfoLink.href).toMatch("/profile");

@@ -4,8 +4,8 @@ import App from "main/App";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-jest.mock("@auth0/auth0-react");
 import useSWR from "swr";
+jest.mock("@auth0/auth0-react");
 jest.mock("swr");
 
 describe("App tests", () => {
@@ -19,8 +19,8 @@ describe("App tests", () => {
     });
     useSWR.mockReturnValue({
       data: {
-        role: "guest"
-      }
+        role: "guest",
+      },
     });
   });
 
@@ -45,12 +45,12 @@ describe("App tests", () => {
     expect(loading).toBeInTheDocument();
   });
 
-    // Unfortunately, there is no way to verify that the admin route is available or not. As a result, this test verifies another side-effect of being an admin.
+  // Unfortunately, there is no way to verify that the admin route is available or not. As a result, this test verifies another side-effect of being an admin.
   test("renders admin route when user is admin", async () => {
     useSWR.mockReturnValue({
       data: {
-        role: "admin"
-      }
+        role: "admin",
+      },
     });
     const history = createMemoryHistory();
     const { getByText } = render(
