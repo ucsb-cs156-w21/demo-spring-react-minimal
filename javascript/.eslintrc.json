@@ -1,0 +1,17 @@
+{
+  "root": true,
+  "extends": ["react-app"],
+  "env": {
+    "browser": true
+  },
+  "overrides": [
+    {
+      "files": ["src/test/**/*.js"],
+      "env": {
+        "browser": false,
+        "node": true,
+        "jest": true
+      }
+    }
+  ]
+}
