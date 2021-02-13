@@ -15,14 +15,10 @@ import useSWR from "swr";
 import { fetchWithToken } from "main/utils/fetch";
 import AuthorizedRoute from "main/components/Nav/AuthorizedRoute";
 
-
 function App() {
   const { isLoading, getAccessTokenSilently: getToken } = useAuth0();
-  const { data: roleInfo } = useSWR(
-    ["/api/myRole", getToken],
-    fetchWithToken
-  );
-  const isAdmin = roleInfo && roleInfo.role.toLowerCase() === "admin";
+  const { data: roleInfo } = useSWR(["/api/myRole", getToken], fetchWithToken);
+  const _isAdmin = roleInfo && roleInfo.role.toLowerCase() === "admin";
 
   if (isLoading) {
     return <Loading />;
@@ -35,7 +31,11 @@ function App() {
         <Switch>
           <Route path="/" exact component={Home} />
           <PrivateRoute path="/profile" component={Profile} />
-          <AuthorizedRoute path="/admin" component={Admin} authorizedRoles={["admin"]}/>
+          <AuthorizedRoute
+            path="/admin"
+            component={Admin}
+            authorizedRoles={["admin"]}
+          />
           <Route path="/about" component={About} />
         </Switch>
       </Container>
