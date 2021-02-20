@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+# Disable path conversion on Windows
+export MSYS_NO_PATHCONV=1
+
 IMAGE_NAME=demo_spring_react_minimal_dev
 
 docker build -t "${IMAGE_NAME}" - < Dockerfile
