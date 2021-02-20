@@ -15,5 +15,9 @@ if [ ! "$(docker ps -aq -f "name=${CONTAINER_NAME}")" ]; then
   docker create -p 8080:8080 -v "$(pwd):/app" -it --name "${CONTAINER_NAME}" "${IMAGE_ID}" /bin/bash
 fi
 
-docker start -a -i "${CONTAINER_NAME}"
+if [ "$(docker ps -aq -f "name=${CONTAINER_NAME}" -f "status=running")" ]; then
+  docker exec -it "${CONTAINER_NAME}" /bin/bash
+else
+  docker start -a -i "${CONTAINER_NAME}"
+fi
 
