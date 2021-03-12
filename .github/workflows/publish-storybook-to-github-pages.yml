@@ -1,6 +1,6 @@
 # https://dev.to/kouts/deploy-storybook-to-github-pages-3bij
 
-name: Build and Deploy
+name: Publish Storybook to GitHub Pages
 on: 
   push:
     branches:
