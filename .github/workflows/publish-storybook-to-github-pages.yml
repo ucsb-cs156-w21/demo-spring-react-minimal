@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-    paths: ["stories/**", "src/components/**"] # Trigger the action only when files change in the folders defined here
+    paths: ["javascript/src/stories/**", "javascript/src/main/**","javascript/.storybook/**"] # Trigger the action only when files change in the folders defined here
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
