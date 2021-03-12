@@ -10,3 +10,5 @@ export default {
 const Template = () => <AppFooter />;
 
 export const Empty = Template.bind({});
+
+
