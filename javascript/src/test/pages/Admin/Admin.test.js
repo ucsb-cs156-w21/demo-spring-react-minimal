@@ -3,10 +3,10 @@ import { render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Admin from "main/pages/Admin/Admin";
 import { useAuth0 } from "@auth0/auth0-react";
-jest.mock("@auth0/auth0-react");
 import useSWR from "swr";
-jest.mock("swr");
 import { fetchWithToken } from "main/utils/fetch";
+jest.mock("@auth0/auth0-react");
+jest.mock("swr");
 jest.mock("main/utils/fetch");
 
 describe("Admin tests", () => {
@@ -14,12 +14,12 @@ describe("Admin tests", () => {
     {
       id: 2,
       email: "cgaucho@ucsb.edu",
-      isPermanentAdmin: true
+      isPermanentAdmin: true,
     },
     {
       id: 3,
       email: "ldelplaya@usa.gov",
-      isPermanentAdmin: false
+      isPermanentAdmin: false,
     },
   ];
   const users = [
@@ -27,19 +27,19 @@ describe("Admin tests", () => {
       id: 1,
       email: "test@example.com",
       firstName: "Test",
-      lastName: "Person"
+      lastName: "Person",
     },
     {
       id: 2,
       email: "cgaucho@ucsb.edu",
       firstName: "Chris",
-      lastName: "Gaucho"
+      lastName: "Gaucho",
     },
     {
       id: 3,
       email: "ldelplaya@usa.gov",
       firstName: "Laura",
-      lastName: "Del Playa"
+      lastName: "Del Playa",
     },
   ];
   const mutateSpy = jest.fn();
@@ -47,7 +47,7 @@ describe("Admin tests", () => {
     useAuth0.mockReturnValue({
       getAccessTokenSilently: jest.fn(),
     });
-    useSWR.mockImplementation(([endpoint, getToken], fetch) => {
+    useSWR.mockImplementation(([endpoint, _getToken], _fetch) => {
       if (endpoint === "/api/users")
         return {
           data: users,
@@ -65,7 +65,7 @@ describe("Admin tests", () => {
   });
 
   test("renders when no admins exist", () => {
-    useSWR.mockImplementation(([endpoint, getToken], fetch) => {
+    useSWR.mockImplementation(([endpoint, _getToken], _fetch) => {
       if (endpoint === "/api/users")
         return {
           data: users,
@@ -82,7 +82,7 @@ describe("Admin tests", () => {
 
   test("renders all users in table", () => {
     const { getByText } = render(<Admin />);
-    users.forEach(user => {
+    users.forEach((user) => {
       expect(getByText(String(user.id))).toBeInTheDocument();
       expect(getByText(user.email)).toBeInTheDocument();
       expect(getByText(user.firstName)).toBeInTheDocument();
@@ -92,7 +92,7 @@ describe("Admin tests", () => {
 
   test("renders all roles in table", () => {
     const { getByText, getAllByText } = render(<Admin />);
-    users.forEach(user => {
+    users.forEach((user) => {
       expect(getByText(String(user.id))).toBeInTheDocument();
       expect(getByText(user.email)).toBeInTheDocument();
       expect(getByText(user.firstName)).toBeInTheDocument();
@@ -106,7 +106,7 @@ describe("Admin tests", () => {
     fetchWithToken.mockReturnValueOnce({
       id: 12,
       email: users[0].email,
-      isPermanentAdmin: false
+      isPermanentAdmin: false,
     });
     const { getByText } = render(<Admin />);
     userEvent.click(getByText("Promote"));

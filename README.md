@@ -22,6 +22,8 @@ This repo is intended to be starter code for apps that have a
 
 * The npm package `prettier` is used to implement a pre-commit hook that formats JavaScript code.  See: [docs/prettier.md](./docs/prettier.md) for more information.
 
+* The npm package `eslint` is used to implement linting for the code under `javascript`.  See [docs/eslint.md](./docs/eslint.md) for more information 
+
 ## Getting Started
 
 To get started with this application, you'll need to be able to
