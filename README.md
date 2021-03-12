@@ -70,3 +70,15 @@ This section serves as a quick reference for values found in these files:
 | `spring.datasource.username`                                      | Yes          | Should always be `${JDBC_DATABASE_USERNAME}`                              |
 | `spring.datasource.password`                                      | Yes          | Should always be `${JDBC_DATABASE_PASSWORD}`                              |
 | `spring.jpa.hibernate.ddl-auto`                                   | Yes          | Should always be `update`                                                 |
+
+# Storybook Support
+
+To run React Storybook:
+
+* cd into `javascript`
+* use: `npm run storybook`
+* This should put the storybook on <http://localhost:6006>
+
+Additional stories are added under `javascript/src/stories`
+
+For documentation on React Storybook, see: <https://storybook.js.org/>
