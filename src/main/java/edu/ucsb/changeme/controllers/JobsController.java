@@ -1,6 +1,5 @@
 package edu.ucsb.changeme.controllers;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/jobs")
 public class JobsController {
   private final Logger logger = LoggerFactory.getLogger(JobsController.class);
 
@@ -46,12 +46,21 @@ public class JobsController {
   private ArrayList<Job> jobs = new ArrayList<Job>();
 
   public JobsController() {
-    jobs.add(new Job("test-job","Test Job")); 
+    jobs.add(new Job("test-job", "Test Job"));
   }
 
-  @GetMapping("/api/public/jobs")
-  public ResponseEntity<String> jobs()
+  private ResponseEntity<String> getUnauthorizedResponse(String roleRequired) throws JsonProcessingException {
+    Map<String, String> response = new HashMap<String, String>();
+    response.put("error", String.format("Unauthorized; only %s may access this resource.", roleRequired));
+    String body = mapper.writeValueAsString(response);
+    return new ResponseEntity<String>(body, HttpStatus.UNAUTHORIZED);
+  }
+
+  @GetMapping("")
+  public ResponseEntity<String> jobs(@RequestHeader("Authorization") String authorization)
       throws JsonProcessingException {
+    if (!authControllerAdvice.getIsAdmin(authorization))
+      return getUnauthorizedResponse("admin");
     String body = mapper.writeValueAsString(jobs);
     return ResponseEntity.ok().body(body);
   }
