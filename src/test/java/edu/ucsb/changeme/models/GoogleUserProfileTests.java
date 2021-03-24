@@ -1,8 +1,8 @@
 package edu.ucsb.changeme.models;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GoogleUserProfileTests {
 
@@ -16,27 +16,9 @@ public class GoogleUserProfileTests {
   }
 
   @Test
-  public void testGoogleUserProfile_notEqualNull() throws Exception {
-    GoogleUserProfile googleuserprofile = GoogleUserProfile.fromJSON(googleUserString());
-    assertNotEquals(googleuserprofile, null);
-  }
-
-  @Test
-  public void testGoogleUserProfile_notEqualAnotherClass() throws Exception {
-    GoogleUserProfile googleuserprofile = GoogleUserProfile.fromJSON(googleUserString());
-    assertNotEquals(googleuserprofile, new Object());
-  }
-
-  @Test
-  public void testGoogleUserProfile_equalsSelf() throws Exception {
-    GoogleUserProfile googleuserprofile = GoogleUserProfile.fromJSON(googleUserString());
-    assertEquals(googleuserprofile, googleuserprofile);
-  }
-
-  @Test
   public void testGoogleUserProfile_fromJSON_badInputJSON() throws Exception {
     GoogleUserProfile googleuserprofile = GoogleUserProfile.fromJSON("");
-    assertEquals(googleuserprofile, null);
+    assertNull(googleuserprofile);
   }
 
   @Test

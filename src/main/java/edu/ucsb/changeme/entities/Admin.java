@@ -6,72 +6,31 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Admin {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
-
   @Column(nullable = false)
   private String email;
   @Column(nullable = false)
-  private boolean isPermanentAdmin = false;
-
-  public Admin() {
-  }
+  private boolean permanentAdmin = false;
 
   public Admin(String email) {
     this.email = email;
   }
 
-  public Admin(String email, boolean status) {
+  public Admin(String email, boolean permanentAdmin) {
     this.email = email;
-    this.isPermanentAdmin = status;
+    this.permanentAdmin = permanentAdmin;
   }
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public boolean getIsPermanentAdmin() {
-    return isPermanentAdmin;
-  }
-
-  public void setIsPermanentAdmin(boolean status) {
-    isPermanentAdmin = status;
-  }
-
-  @Override
-  public String toString() {
-    return String.format("Admin[ id=%d, email=%s, isPermanentAdmin=%s ]", this.id, this.email,
-        this.isPermanentAdmin);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
-    Admin admin = (Admin) o;
-    EqualsBuilder builder = new EqualsBuilder();
-    builder.append(id, admin.getId()).append(email, admin.getEmail()).append(isPermanentAdmin,
-        admin.getIsPermanentAdmin());
-    return builder.build();
-  }
-
 }
