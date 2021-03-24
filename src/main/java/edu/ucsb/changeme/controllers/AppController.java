@@ -1,8 +1,5 @@
 package edu.ucsb.changeme.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,9 +11,6 @@ import edu.ucsb.changeme.models.GoogleUserProfile;
 
 @RestController
 public class AppController {
-
-  private Logger logger = LoggerFactory.getLogger(AppController.class);
-
   @Value("${security.oauth2.resource.id}")
   private String resourceId;
 

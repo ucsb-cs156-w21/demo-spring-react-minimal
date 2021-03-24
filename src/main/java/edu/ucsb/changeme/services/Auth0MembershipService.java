@@ -1,7 +1,6 @@
 package edu.ucsb.changeme.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,9 @@ import edu.ucsb.changeme.repositories.AdminRepository;
 /**
  * Service object that determines whether a user is a member of the google org or not.
  */
+@Slf4j
 @Service
 public class Auth0MembershipService implements MembershipService {
-
-  private Logger logger = LoggerFactory.getLogger(Auth0MembershipService.class);
-
   @Value("${app.namespace}")
   private String namespace;
 
@@ -66,16 +63,16 @@ public class Auth0MembershipService implements MembershipService {
 
     Map<String, Object> customClaims = jwt.getClaim(namespace).asMap();
     if (customClaims == null) {
-      logger.error("ERROR!  customClaims is null");
-      logger.error("namespace = {}", namespace);
+      log.error("ERROR!  customClaims is null");
+      log.error("namespace = {}", namespace);
       return false;
     }
 
     String email = (String) customClaims.get("email");
     String hostedDomain = email.substring(email.indexOf("@") + 1);
 
-    logger.info("email=[" + email + "]");
-    logger.info("hostedDomain=" + hostedDomain);
+    log.info("email=[" + email + "]");
+    log.info("hostedDomain=" + hostedDomain);
 
     if (roleToTest.equals("admin") && isAdminEmail(email)) {
       return true;

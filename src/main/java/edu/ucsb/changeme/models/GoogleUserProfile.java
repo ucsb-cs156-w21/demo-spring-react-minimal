@@ -6,15 +6,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Slf4j
 @Data
 public class GoogleUserProfile {
-
-  private static final Logger logger = LoggerFactory.getLogger(GoogleUserProfile.class);
   private String sub;
   private String name;
   private String email;
@@ -40,7 +40,7 @@ public class GoogleUserProfile {
       GoogleUserProfile userProfile = objectMapper.readValue(json, GoogleUserProfile.class);
       return userProfile;
     } catch (JsonProcessingException jpe) {
-      logger.error("JsonProcessingException:" + jpe);
+      log.error("JsonProcessingException:" + jpe);
       return null;
     }
   }
