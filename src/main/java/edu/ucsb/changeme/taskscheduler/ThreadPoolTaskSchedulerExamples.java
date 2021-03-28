@@ -23,7 +23,7 @@ public class ThreadPoolTaskSchedulerExamples {
 
     @PostConstruct
     public void scheduleRunnableWithCronTrigger() {
-        // // taskScheduler.schedule(new RunnableTask("Current Date"), new Date());
+        taskScheduler.schedule(new RunnableTask("Current Date"), new Date());
         // taskScheduler.scheduleWithFixedDelay(new RunnableTask("Fixed 5 second Delay"), 5000);
         // // taskScheduler.scheduleWithFixedDelay(new RunnableTask("Current Date Fixed 1 second Delay"), new Date(), 1000);
         // taskScheduler.scheduleAtFixedRate(new RunnableTask("Fixed Rate of 7 seconds"), new Date(), 7000);

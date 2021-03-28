@@ -1,7 +1,7 @@
 import React from "react";
-import JobLauncherItem from "main/components/Jobs/JobLauncherItem";
+import JobRunnerItem from "main/components/Jobs/JobRunnerItem";
 
-const JobLauncher = ({ jobs }) => {
+const JobRunner = ({ jobs }) => {
   console.log("jobs=", jobs);
   return (
     <>
@@ -20,7 +20,7 @@ const JobLauncher = ({ jobs }) => {
             </thead>
             <tbody>
               {jobs &&
-                jobs.map((job) => <JobLauncherItem key={job.key} job={job} />)}
+                jobs.map((job) => <JobRunnerItem key={job.key} job={job} />)}
             </tbody>
           </table>
         </div>
@@ -29,4 +29,4 @@ const JobLauncher = ({ jobs }) => {
   );
 };
 
-export default JobLauncher;
+export default JobRunner;
