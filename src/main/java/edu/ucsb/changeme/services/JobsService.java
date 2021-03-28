@@ -7,6 +7,13 @@ import org.springframework.util.concurrent.FailureCallback;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.SuccessCallback;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,4 +90,16 @@ public class JobsService {
         return jr;
     }
 
+    public Page<JobRecord> getJobRecords() {
+
+        Pageable sortedByIdDesc = PageRequest.of(0, 5, Sort.by("id").descending());
+        Page<JobRecord> page = jobRecordRepository.findAll(sortedByIdDesc);
+        return page;
+    }
+
+    public Page<JobRecord> getJobRecords(int page, int pageSize) {
+        Pageable sortedByIdDesc = PageRequest.of(page, pageSize, Sort.by("id").descending());
+        Page<JobRecord> pageResult = jobRecordRepository.findAll(sortedByIdDesc);
+        return pageResult;
+    }
 }
